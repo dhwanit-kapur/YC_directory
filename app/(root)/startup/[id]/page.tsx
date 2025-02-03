@@ -8,6 +8,7 @@ import { notFound } from "next/navigation";
 
 import markdownit from "markdown-it";
 import { Skeleton } from "@/components/ui/skeleton";
+import Views from "@/components/Views";
 
 const md = markdownit();
 
@@ -79,7 +80,9 @@ export default async function Page({
 
         {/* TODO : Editor selected startups */}
 
-        <Suspense fallback={<Skeleton className="view_skeleton" />}></Suspense>
+        <Suspense fallback={<Skeleton className="view_skeleton" />}>
+          <Views id={id} />
+        </Suspense>
       </section>
     </>
   );
