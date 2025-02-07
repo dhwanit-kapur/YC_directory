@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { startTransition, useActionState, useState } from "react";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import MDEditor from "@uiw/react-md-editor";
@@ -76,8 +76,15 @@ export default function StartupForm() {
     status: "INITIAL",
   });
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    startTransition(() => {
+      formAction(new FormData(event.currentTarget));
+    });
+  };
+
   return (
-    <form action={formAction} className="startup-form">
+    <form className="startup-form" onSubmit={handleSubmit}>
       <div>
         <label htmlFor="title" className="startup-form_label">
           Title
