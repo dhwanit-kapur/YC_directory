@@ -22,14 +22,13 @@ export default async function Page({
   params: Promise<{ id: string }>;
 }) {
   const id = (await params).id;
-  const post = await client.fetch(STARTUP_BY_ID_QUERY, { id });
 
-  const { select: editorPicks = [] } = await client.fetch(
-    PLAYLIST_BY_SLUG_QUERY,
-    {
+  const [post, { select: editorPicks = [] }] = await Promise.all([
+    client.fetch(STARTUP_BY_ID_QUERY, { id }),
+    client.fetch(PLAYLIST_BY_SLUG_QUERY, {
       slug: "trending-startups",
-    }
-  );
+    }),
+  ]);
 
   if (!post) {
     return notFound();
